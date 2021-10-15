@@ -1,0 +1,10 @@
+ Volume in drive C is OS
+ Volume Serial Number is ECA4-B2F1
+
+ Directory of C:\Users\doria\OneDrive\Documents\DB Important\Python for begginers
+
+10/15/2021  11:44 AM    <DIR>          .
+10/15/2021  11:44 AM    <DIR>          ..
+10/15/2021  11:44 AM                 0 test1.txt
+               1 File(s)              0 bytes
+               2 Dir(s)  610,816,487,424 bytes free

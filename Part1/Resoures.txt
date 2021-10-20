@@ -1,0 +1,12 @@
+Download Python 3.10.0
+https://www.python.org/downloads/
+In this link there are all the Release Versions and Release dates.
+
+Python has a labrary that is very broad and very helpfull.
+https://docs.python.org/3.10/library/index.html
+
+The Python Tutorial
+https://docs.python.org/3.10/tutorial/index.html
+
+Installing Python Modules and More
+https://docs.python.org/3.10/installing/index.html

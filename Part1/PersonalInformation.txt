@@ -1,0 +1,14 @@
+I started learning Python on University and had no Idea that I loved programming so muh as I do untill I started to know more Python.
+
+Things that helped me to love Python was to use VisualCode and the extensions that they have for Python. 
+One you did the code on the VisualCode there is a button that you can click on the top right corner that will play your code step by step and if there is any
+errors it will show step by step untill stucc or succeded.
+
+This helped me to learn codding more and that is why I love Python so much. It helped me learn more about codding and helped me learn how odding works. I can tell you that 
+in my preference 1000110101 is more difficult than working with Python and it would make sense because the odding that is used through Python is more user friendly than any other 
+codding language.
+
+How to make yourself count in the proffessional world. Something that I learned the hard way was to keep notes for each line of block. This helped me learn a lot more faster and
+I would know where to return in the code if there was something wrong with the programming.
+
+In this Record that I'm creating I will add some examples that I'learned through textbooks and experience on everyday.

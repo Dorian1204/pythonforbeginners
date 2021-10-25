@@ -159,14 +159,202 @@ but complex('1 + 2j') raises ValueError.
 
 -D
 delattr() dict() dir() divmod()
+
+delattr(object, name)
+This is a relative of setattr(). The arguments are an object and a string. The string must be the name of one of the object’s attributes. The function deletes the named attribute, provided the object allows it. For example, delattr(x, 'foobar') is equivalent to del x.foobar.
+class dict(**kwarg)
+class dict(mapping, **kwarg)
+class dict(iterable, **kwarg)
+Create a new dictionary. The dict object is the dictionary class. See dict and Mapping Types — dict for documentation about this class.
+For other containers see the built-in list, set, and tuple classes, as well as the collections module.
+
+dir([object])
+Without arguments, return the list of names in the current local scope. With an argument, attempt to return a list of valid attributes for that object.
+If the object has a method named __dir__(), this method will be called and must return the list of attributes. This allows objects that implement a custom __getattr__() or __getattribute__() function to customize the way dir() reports their attributes.
+If the object does not provide __dir__(), the function tries its best to gather information from the object’s __dict__ attribute, if defined, and from its type object. The resulting list is not necessarily complete and may be inaccurate when the object has a custom __getattr__().
+The default dir() mechanism behaves differently with different types of objects, as it attempts to produce the most relevant, rather than complete, information:
+If the object is a module object, the list contains the names of the module’s attributes.
+If the object is a type or class object, the list contains the names of its attributes, and recursively of the attributes of its bases.
+Otherwise, the list contains the object’s attributes’ names, the names of its class’s attributes, and recursively of the attributes of its class’s base classes.
+The resulting list is sorted alphabetically. For example:
+>>>
+import struct
+dir()   # show the names in the module namespace  
+['__builtins__', '__name__', 'struct']
+dir(struct)   # show the names in the struct module 
+['Struct', '__all__', '__builtins__', '__cached__', '__doc__', '__file__',
+ '__initializing__', '__loader__', '__name__', '__package__',
+ '_clearcache', 'calcsize', 'error', 'pack', 'pack_into',
+ 'unpack', 'unpack_from']
+class Shape:
+    def __dir__(self):
+        return ['area', 'perimeter', 'location']
+s = Shape()
+dir(s)
+['area', 'location', 'perimeter']
+Note Because dir() is supplied primarily as a convenience for use at an interactive prompt, it tries to supply an interesting set of names more than 
+it tries to supply a rigorously or consistently defined set of names, and its detailed behavior may change across releases. For example, metaclass 
+attributes are not in the result list when the argument is a class.
+
+divmod(a, b)
+Take two (non-complex) numbers as arguments and return a pair of numbers consisting of their quotient and remainder when using integer division. 
+With mixed operand types, the rules for binary arithmetic operators apply. For integers, the result is the same as (a // b, a % b). For floating point 
+numbers the result is (q, a % b), where q is usually math.floor(a / b) but may be 1 less than that. In any case q * b + a % b is very close to a, 
+if a % b is non-zero it has the same sign as b, and 0 <= abs(a % b) < abs(b).
+
 -E
 enumerate() eval() exec()
+
+enumerate(iterable, start=0)
+Return an enumerate object. iterable must be a sequence, an iterator, or some other object which supports iteration. The __next__() method of the iterator returned by enumerate() returns a tuple containing a count (from start which defaults to 0) and the values obtained from iterating over iterable.
+>>>
+seasons = ['Spring', 'Summer', 'Fall', 'Winter']
+list(enumerate(seasons))
+[(0, 'Spring'), (1, 'Summer'), (2, 'Fall'), (3, 'Winter')]
+list(enumerate(seasons, start=1))
+[(1, 'Spring'), (2, 'Summer'), (3, 'Fall'), (4, 'Winter')]
+Equivalent to:
+def enumerate(sequence, start=0):
+    n = start
+    for elem in sequence:
+        yield n, elem
+        n += 1
+
+eval(expression[, globals[, locals]])
+The arguments are a string and optional globals and locals. If provided, globals must be a dictionary. If provided, locals can be any mapping object.
+The expression argument is parsed and evaluated as a Python expression (technically speaking, a condition list) using the globals and locals dictionaries 
+as global and local namespace. If the globals dictionary is present and does not contain a value for the key __builtins__, a reference to the dictionary of 
+the built-in module builtins is inserted under that key before expression is parsed. That way you can control what builtins are available to the executed 
+code by inserting your own __builtins__ dictionary into globals before passing it to eval(). If the locals dictionary is omitted it defaults to the globals 
+dictionary. If both dictionaries are omitted, the expression is executed with the globals and locals in the environment where eval() is called. Note, eval() 
+does not have access to the nested scopes (non-locals) in the enclosing environment.
+The return value is the result of the evaluated expression. Syntax errors are reported as exceptions. Example:
+>>>
+x = 1
+eval('x+1')
+2
+This function can also be used to execute arbitrary code objects (such as those created by compile()). In this case, pass a code object instead of a string. 
+If the code object has been compiled with 'exec' as the mode argument, eval()'s return value will be None.
+Hints: dynamic execution of statements is supported by the exec() function. The globals() and locals() functions return the current global and local 
+dictionary, respectively, which may be useful to pass around for use by eval() or exec().
+If the given source is a string, then leading and trailing spaces and tabs are stripped.
+See ast.literal_eval() for a function that can safely evaluate strings with expressions containing only literals.
+Raises an auditing event exec with the code object as the argument. Code compilation events may also be raised.
+
+exec(object[, globals[, locals]])¶
+This function supports dynamic execution of Python code. object must be either a string or a code object. If it is a string, the string is parsed as a 
+suite of Python statements which is then executed (unless a syntax error occurs). 1 If it is a code object, it is simply executed. In all cases, the code 
+that’s executed is expected to be valid as file input (see the section “File input” in the Reference Manual). Be aware that the nonlocal, yield, and return 
+statements may not be used outside of function definitions even within the context of code passed to the exec() function. The return value is None.
+In all cases, if the optional parts are omitted, the code is executed in the current scope. If only globals is provided, it must be a dictionary 
+(and not a subclass of dictionary), which will be used for both the global and the local variables. If globals and locals are given, they are used for 
+the global and local variables, respectively. If provided, locals can be any mapping object. Remember that at the module level, globals and locals are 
+the same dictionary. If exec gets two separate objects as globals and locals, the code will be executed as if it were embedded in a class definition.
+If the globals dictionary does not contain a value for the key __builtins__, a reference to the dictionary of the built-in module builtins is inserted 
+under that key. That way you can control what builtins are available to the executed code by inserting your own __builtins__ dictionary into globals 
+before passing it to exec().
+Raises an auditing event exec with the code object as the argument. Code compilation events may also be raised.
+Note The built-in functions globals() and locals() return the current global and local dictionary, respectively, which may be useful to pass around for 
+use as the second and third argument to exec().
+Note The default locals act as described for function locals() below: modifications to the default locals dictionary should not be attempted. 
+Pass an explicit locals dictionary if you need to see effects of the code on locals after function exec() returns.
+
 -F
 filter() float() format() frozenset()
+
+filter(function, iterable)
+Construct an iterator from those elements of iterable for which function returns true. iterable may be either a sequence, a container which supports iteration, or an iterator. If function is None, the identity function is assumed, that is, all elements of iterable that are false are removed.
+Note that filter(function, iterable) is equivalent to the generator expression (item for item in iterable if function(item)) if function is not None and (item for item in iterable if item) if function is None.
+See itertools.filterfalse() for the complementary function that returns elements of iterable for which function returns false.
+
+class float([x])¶
+Return a floating point number constructed from a number or string x.
+If the argument is a string, it should contain a decimal number, optionally preceded by a sign, and optionally embedded in whitespace. The optional sign may be '+' or '-'; a '+' sign has no effect on the value produced. The argument may also be a string representing a NaN (not-a-number), or positive or negative infinity. More precisely, the input must conform to the following grammar after leading and trailing whitespace characters are removed:
+sign           ::=  "+" | "-"
+infinity       ::=  "Infinity" | "inf"
+nan            ::=  "nan"
+numeric_value  ::=  floatnumber | infinity | nan
+numeric_string ::=  [sign] numeric_value
+Here floatnumber is the form of a Python floating-point literal, described in Floating point literals. Case is not significant, so, for example, “inf”, “Inf”, “INFINITY”, and “iNfINity” are all acceptable spellings for positive infinity.
+Otherwise, if the argument is an integer or a floating point number, a floating point number with the same value (within Python’s floating point precision) is returned. If the argument is outside the range of a Python float, an OverflowError will be raised.
+For a general Python object x, float(x) delegates to x.__float__(). If __float__() is not defined then it falls back to __index__().
+If no argument is given, 0.0 is returned.
+Examples:
+>>>
+>>> float('+1.23')
+1.23
+>>> float('   -12345\n')
+-12345.0
+>>> float('1e-003')
+0.001
+>>> float('+1E6')
+1000000.0
+>>> float('-Infinity')
+-inf
+The float type is described in Numeric Types — int, float, complex.
+Changed in version 3.6: Grouping digits with underscores as in code literals is allowed.
+Changed in version 3.7: x is now a positional-only parameter.
+Changed in version 3.8: Falls back to __index__() if __float__() is not defined.
+
+format(value[, format_spec])¶
+Convert a value to a “formatted” representation, as controlled by format_spec. The interpretation of format_spec will depend on the type of the value argument; however, there is a standard formatting syntax that is used by most built-in types: Format Specification Mini-Language.
+The default format_spec is an empty string which usually gives the same effect as calling str(value).
+A call to format(value, format_spec) is translated to type(value).__format__(value, format_spec) which bypasses the instance dictionary when searching for the value’s __format__() method. A TypeError exception is raised if the method search reaches object and the format_spec is non-empty, or if either the format_spec or the return value are not strings.
+Changed in version 3.4: object().__format__(format_spec) raises TypeError if format_spec is not an empty string.
+
+class frozenset([iterable])
+Return a new frozenset object, optionally with elements taken from iterable. frozenset is a built-in class. See frozenset and Set Types — set, frozenset for documentation about this class.
+For other containers see the built-in set, list, tuple, and dict classes, as well as the collections module.
+
 -G
 getattr() globals()
+
+getattr(object, name[, default])¶
+Return the value of the named attribute of object. name must be a string. If the string is the name of one of the object’s attributes, 
+the result is the value of that attribute. For example, getattr(x, 'foobar') is equivalent to x.foobar. If the named attribute does not exist, 
+default is returned if provided, otherwise AttributeError is raised.
+Note Since private name mangling happens at compilation time, one must manually mangle a private attribute’s (attributes with two leading underscores) 
+name in order to retrieve it with getattr().
+
+globals()¶
+Return a dictionary representing the current global symbol table. This is always the dictionary of the current module (inside a function or method, 
+this is the module where it is defined, not the module from which it is called).
+
 -H
 hasattr() hash() help() hex()
+
+hasattr(object, name)
+The arguments are an object and a string. The result is True if the string is the name of one of the object’s attributes, False if not. (This is implemented by calling getattr(object, name) and seeing whether it raises an AttributeError or not.)
+
+hash(object)
+Return the hash value of the object (if it has one). Hash values are integers. They are used to quickly compare dictionary keys during a dictionary lookup. Numeric values that compare equal have the same hash value (even if they are of different types, as is the case for 1 and 1.0).
+Note For objects with custom __hash__() methods, note that hash() truncates the return value based on the bit width of the host machine. See __hash__() for details.
+
+help([object])
+Invoke the built-in help system. (This function is intended for interactive use.) If no argument is given, the interactive help system starts on the interpreter console. If the argument is a string, then the string is looked up as the name of a module, function, class, method, keyword, or documentation topic, and a help page is printed on the console. If the argument is any other kind of object, a help page on the object is generated.
+Note that if a slash(/) appears in the parameter list of a function when invoking help(), it means that the parameters prior to the slash are positional-only. For more info, see the FAQ entry on positional-only parameters.
+This function is added to the built-in namespace by the site module.
+Changed in version 3.4: Changes to pydoc and inspect mean that the reported signatures for callables are now more comprehensive and consistent.
+
+hex(x)¶
+Convert an integer number to a lowercase hexadecimal string prefixed with “0x”. If x is not a Python int object, it has to define an __index__() method that returns an integer. Some examples:
+>>>
+hex(255)
+'0xff'
+hex(-42)
+'-0x2a'
+If you want to convert an integer number to an uppercase or lower hexadecimal string with prefix or not, you can use either of the following ways:
+>>>
+'%#x' % 255, '%x' % 255, '%X' % 255
+('0xff', 'ff', 'FF')
+format(255, '#x'), format(255, 'x'), format(255, 'X')
+('0xff', 'ff', 'FF')
+f'{255:#x}', f'{255:x}', f'{255:X}'
+('0xff', 'ff', 'FF')
+See also format() for more information.
+See also int() for converting a hexadecimal string to an integer using a base of 16.
+Note To obtain a hexadecimal string representation for a float, use the float.hex() method.
+
 -I
 id() input() int() isinstance() issubclass() iter()
 

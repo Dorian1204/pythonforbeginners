@@ -1,0 +1,6 @@
+In my personal Opinion is important that you know what you are doing and that you have a visual how your code is working. It is important to see your code run step by step and make a vailid evaluation
+of what is going wrong with your code. I found that when I started exploring a new software to me that was called VisualStudioCode in this software I was able to install extentions that would make it
+colorfull so I could read my code better but also I could test my programming a lot more easier through a arrow on the top right corner of the software. This will be my main go to when I work on Python.
+Something else that VisualStudioCode has is the Problems/output/terminal/debugger that are located on the bottom of the visual studio code. Once you start to create your workplace and name the files to
+PY then the VisualStudioCode wil recognize that you are working on Python and will make your life a lot more easier. VisualStudioCode is one of my got to where I can use more than one codding software.
+
